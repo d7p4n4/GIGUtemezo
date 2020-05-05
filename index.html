@@ -11,11 +11,11 @@
         <script src="js/backgroundticker.js" ></script>
         <script src="js/Ac4yKeyValueMemory.js" ></script>
         <audio id="chatAudio" > 
-            <source src="tick157ms.mp3" 
+            <source src="audio\tick157ms.mp3" 
             type="audio/mpeg"> 
         </audio> 
         <audio id="chatAudio2" > 
-            <source src="tick220ms.mp3" 
+            <source src="audio\tick220ms.mp3" 
             type="audio/mpeg"> 
         </audio> 
     </head>
@@ -40,7 +40,7 @@
         </div>
 
         <div id="imagesStory">
-            <img id="story" src="" alt="" width="500" height="200"/>
+            <img id="story" src="" alt="" width="600" height="500"/>
         </div>
 
         <div id="colorBox" class="whiteBackground"></div>
@@ -102,7 +102,14 @@
             chordImageValue.put(35, 2);
             chordImageValue.put(39, 1);
 
-            
+            var storyImageHotspot = new Ac4yKeyValueMemory();
+
+            storyImageHotspot.put(9, 1);
+            storyImageHotspot.put(17, 2);
+            storyImageHotspot.put(21, 1);
+            storyImageHotspot.put(25, 3);
+            storyImageHotspot.put(33, 2);
+            storyImageHotspot.put(37, 3);
 
             var timerWorker = null;
             timerWorker = new Worker("js/backgroundticker.js");
@@ -159,34 +166,14 @@
 
                 var chords = ["F", "C"]
 
-                var chordImage = ["FChord.png", "CChord.png"];
+                var chordImage = ["image/FChord.png", "image/CChord.png"];
+
+                var storyImage = ["image/egyszeregykiralyfi.jpg", "image/hihihihahaha.jpg", "image/kocsisiruhaba.jpg"];
 
             function tick(tick) {
 
                 if (tick) {
-                    
-                    //console.log("tick:"+tick);
-/*
-                    switch(tick){
-                        case 9: document.getElementById('story').setAttribute('src', 'kisherceg1.jpg')
-                                break;
-                        case 13: document.getElementById('story').setAttribute('src', 'kisherceg2.jpg')
-                                break;
-                        case 17: document.getElementById('story').setAttribute('src', 'kisherceg3.jpg')
-                                break;
-                        case 21: document.getElementById('story').setAttribute('src', 'kisherceg4.jpg')
-                                break;
-                        case 25: document.getElementById('story').setAttribute('src', 'kisherceg1.jpg')
-                                break;
-                        case 29: document.getElementById('story').setAttribute('src', 'kisherceg2.jpg')
-                                break;
-                        case 33: document.getElementById('story').setAttribute('src', 'kisherceg3.jpg')
-                                break;
-                        case 37: document.getElementById('story').setAttribute('src', 'kisherceg4.jpg')
-                                break;
-                    }
-*/
-/*                    
+                                       
                     if(periodBeat === 1){
                         audio.play();
 
@@ -196,7 +183,7 @@
                         audio2.play();
 
                     }
-*/
+
                     if(periodBeat % 2 === 0){
                         document.getElementById('colorBox').style.background = 'green';
 
@@ -222,22 +209,16 @@
                     if(chordImageValue.exists(tick))
                         document.getElementById("chordImage").src = 
                             chordImage[chordImageValue.get(tick)-1];
-/*
-                    switch(document.getElementById('chords').innerHTML){
-                        case "F": var img = document.getElementById('chord');
-                                  img.setAttribute('src', 'FChord.png');
-                                  break;
-                        case "C": var img = document.getElementById('chord');
-                                  img.setAttribute('src', 'CChord.png');
-                                  break;
-                    }
-*/
+
+                            if(storyImageHotspot.exists(tick))
+                        document.getElementById("story").src = 
+                            storyImage[storyImageHotspot.get(tick)-1];
+
                     if(tick === 41){
                         timerWorker.postMessage({'command':'stop'});
                         periodBeat = 1;
                     }
-
-                
+               
                 }
             }
 
