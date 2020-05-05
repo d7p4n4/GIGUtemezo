@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <link rel="shortcut icon" href="">
+        <audio id="chatAudio" > 
+            <source src= 
+    "tick157ms.mp3" 
+            type="audio/mpeg"> 
+        </audio> 
+        <audio id="chatAudio2" > 
+            <source src= 
+    "tick220ms.mp3" 
+            type="audio/mpeg"> 
+        </audio> 
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        
+        <button type="button" id="startButton" onclick="startClick()">Start</button>
+        <button type="button" id="stopButton" onclick="stopClick()">Stop</button>
+        <button type="button" id="pauseButton" onclick="pauseClick()">Pause</button>
+        <button type="button" id="resumeButton" onclick="resumeClick()">Resume</button>
+
+        <p id="text"></p>
+            
+        <p id="demo"></p>
+
+        <script src="" async defer></script>
+
+        <script>
+            var audio = document.getElementById('chatAudio'); 
+            var audio2 = document.getElementById('chatAudio2'); 
+            
+            class Ac4yKeyValueMemory {
+
+                constructor(object){this.empty();}
+                empty(){this.store={};}
+                getStore(){return this.store;}
+                setStore(store){return this.store=store;}
+                get(key){return this.store[key];}
+                size(){return Object.keys(this.store).length;}
+                exists(key){if (this.store[key]) return true; else return false;}
+                put(key, value){this.store[key]=value;}
+                remove(key){delete this.store[key];}
+            
+                getKeyList(){
+            
+                    var result = [];
+            
+                    for (var key in this.getStore()) {result.push(key);}
+            
+                    return result;
+            
+                } // getKeyList
+            
+                fetch(processor){
+            
+                    Object.getOwnPropertyNames(this.getStore()).forEach( (key, index) => {
+                        processor(key, this.getStore()[key], index);
+                    });
+            
+                } // fetch
+            
+                add(source){source.fetch( (key, value, index) => { this.put(key, value)} )}
+            
+            };
+
+            var ac4yKeyValueMemory = new Ac4yKeyValueMemory();
+            ac4yKeyValueMemory.put(1,1);
+            ac4yKeyValueMemory.put(5,2);
+            ac4yKeyValueMemory.put(9,3);
+            ac4yKeyValueMemory.put(11,4);
+            ac4yKeyValueMemory.put(13,5);
+            ac4yKeyValueMemory.put(15,6);
+            ac4yKeyValueMemory.put(16,7);
+
+
+            class Utemezo {
+                constructor(){
+                    this.bpm = 0;
+                    this.intervalId = 0;
+                    this.pause = false;
+                    this.seconds = 0;
+                    this.intervalUnit = 0;
+                    this.maxTick = 16;
+                    this.actualTick = 1;
+                }
+
+                calculateIntervalUnit() {
+                    this.intervalUnit = 60000 / this.bpm;
+                }
+
+                tick() {
+                    /*-
+                    var date = new Date();
+                    document.getElementById("demo").innerHTML = 'Seconds: ' + this.seconds;
+                    if(pause) {
+                        this.seconds++;
+                    }*/
+
+                    console.log("tick");
+
+                }
+
+                start() {
+                    this.intervalId = setInterval(() => {
+
+                        this.tick();
+
+                    }, this.intervalUnit);
+
+                };
+
+                stop() {
+                    clearInterval(this.intervalId);
+                    this.seconds = 0;
+                }
+
+
+            };
+
+            class Metronom extends Utemezo {
+
+                constructor() {
+                    super();
+                    this.beatPerPeriod;
+                    this.periodBeat = 1;
+                    this.text = ["Egyszer egy királyfi", "mit gondolt magában", "hihihi", "hahaha", "mit gondolt ma-", "gá-", "ban"];
+                }
+
+                tick() {
+
+                    if(this.periodBeat === 1){
+                        console.log('>> ' + this.periodBeat);
+
+                        audio.play();
+                    } else {
+                        console.log(this.periodBeat);
+                        audio2.play();
+
+                    }
+
+                    if(this.periodBeat === this.beatPerPeriod) {
+                        this.periodBeat = 1;
+                    } else {
+                        this.periodBeat++;
+                    }
+
+                    if(ac4yKeyValueMemory.exists(this.actualTick)){
+                        document.getElementById("text").innerHTML = this.text[ac4yKeyValueMemory.get(this.actualTick)-1];
+                        
+                    }
+
+                    if(this.actualTick === this.maxTick){
+                        this.stop();
+                        this.actualTick = 1;
+                    }
+                    this.actualTick++;
+
+                }
+
+            };
+
+            var metronom = new Metronom();
+            metronom.bpm = 120;
+            metronom.beatPerPeriod = 4;
+
+            function stopClick() {
+                metronom.stop();
+            }
+
+            function startClick() {
+                metronom.calculateIntervalUnit();
+                metronom.start();
+            }
+
+            function pauseClick() {
+                metronom.pause = true;
+            }
+
+            function resumeClick() {
+                metronom.pause = false;
+            }
+
+
+        </script>
+    </body>
+</html>
