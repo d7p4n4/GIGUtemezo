@@ -6,8 +6,9 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="index.css">
         <link rel="shortcut icon" href="">
+        <script src="backgroundticker.js" type="javascript/text"></script>
         <audio id="chatAudio" > 
             <source src= 
     "tick157ms.mp3" 
@@ -25,11 +26,27 @@
         <![endif]-->
         
         <button type="button" id="startButton" onclick="startClick()">Start</button>
+        
         <button type="button" id="stopButton" onclick="stopClick()">Stop</button>
+        <!--
         <button type="button" id="pauseButton" onclick="pauseClick()">Pause</button>
         <button type="button" id="resumeButton" onclick="resumeClick()">Resume</button>
+        -->
 
-        <p id="text"></p>
+        <p id="text" style="font-size: 54px; padding:0; margin:0;"></p>
+        <p id="chords" style="font-size: 90px; padding: 0; margin: 10px;"></p>
+
+        <div id="images">
+            <div id="chordsImage">
+                <img id="chord" src="" alt=""/>
+            </div>
+        </div>
+
+        <div id="imagesStory">
+            <img id="story" src="" alt=""/>
+        </div>
+
+        <div id="colorBox" class="whiteBackground"></div>
             
         <p id="demo"></p>
 
@@ -38,6 +55,7 @@
         <script>
             var audio = document.getElementById('chatAudio'); 
             var audio2 = document.getElementById('chatAudio2'); 
+            var periodBeat = 1;
             
             class Ac4yKeyValueMemory {
 
@@ -74,15 +92,153 @@
             };
 
             var ac4yKeyValueMemory = new Ac4yKeyValueMemory();
-            ac4yKeyValueMemory.put(1,1);
-            ac4yKeyValueMemory.put(5,2);
-            ac4yKeyValueMemory.put(9,3);
-            ac4yKeyValueMemory.put(11,4);
-            ac4yKeyValueMemory.put(13,5);
-            ac4yKeyValueMemory.put(15,6);
-            ac4yKeyValueMemory.put(16,7);
+            ac4yKeyValueMemory.put(9,1);
+            ac4yKeyValueMemory.put(13,2);
+            ac4yKeyValueMemory.put(17,3);
+            ac4yKeyValueMemory.put(19,4);
+            ac4yKeyValueMemory.put(21,5);
+            ac4yKeyValueMemory.put(23,6);
+            ac4yKeyValueMemory.put(24,7);
+            ac4yKeyValueMemory.put(28,8);
+            ac4yKeyValueMemory.put(32,9);
+            ac4yKeyValueMemory.put(36,10);
+            ac4yKeyValueMemory.put(38,11);
+            ac4yKeyValueMemory.put(40,12);
+            ac4yKeyValueMemory.put(42,13);
+            ac4yKeyValueMemory.put(43,14);
 
+            var ac4yChordsValue = new Ac4yKeyValueMemory();
+            ac4yChordsValue.put(9, 1);
+            ac4yChordsValue.put(13, 2);
+            ac4yChordsValue.put(17, 1);
+            ac4yChordsValue.put(19, 2);
+            ac4yChordsValue.put(23, 1);
+            ac4yChordsValue.put(28, 1);
+            ac4yChordsValue.put(32, 2);
+            ac4yChordsValue.put(34, 1);
+            ac4yChordsValue.put(38, 2);
+            ac4yChordsValue.put(42, 1);
 
+            
+
+            var timerWorker = null;
+            timerWorker = new Worker("backgroundticker.js");
+            timerWorker.onmessage = function(e) {
+
+                tick(e.data.tick);
+
+            };
+            function startClick() {
+                timerWorker.postMessage({"metrum":500});
+                timerWorker.postMessage({"maxMetrum":16});
+                timerWorker.postMessage({"beatPerPeriod":4});
+                timerWorker.postMessage({"command":"start"});
+
+                document.getElementById('text').innerHTML = '';
+                document.getElementById('chords').innerHTML = '';
+                document.getElementById('chord').setAttribute('src', '');
+                document.getElementById('story').setAttribute('src', '');
+                document.getElementById('colorBox').style.background = 'white';
+            }
+
+            function stopClick() {
+                timerWorker.postMessage({'command':'stop'});
+                /*-
+                document.getElementById('text').innerHTML = '';
+                document.getElementById('chords').innerHTML = '';
+                document.getElementById('chord').setAttribute('src', '');
+                document.getElementById('story').setAttribute('src', '');
+                document.getElementById('colorBox').style.background = 'white';
+                */
+
+            }
+
+            function tick(tick) {
+                var text = ["Egyszer egy királyfi", "mit gondolt magában", "hihihi", "hahaha", "mit gondolt ma-", "gá-", "ban",
+                 'Föl kéne öltözni', "Kocsisi ruhába", "hihihi", "hahaha", "kocsisi ru-", "há-", "-ba"];
+                var chords = ["F", "C",]
+
+                if (tick) {
+                    console.log("tick:"+tick);
+
+                    switch(tick){
+                        case 5: document.getElementById("text").innerHTML = 4
+                            break;
+                        case 6: document.getElementById("text").innerHTML = 3
+                            break;
+                        case 7: document.getElementById("text").innerHTML = 2
+                            break;
+                        case 8: document.getElementById("text").innerHTML = 1
+                            break;
+                        case 9: document.getElementById('story').setAttribute('src', 'kisherceg1.jpg')
+                                break;
+                        case 13: document.getElementById('story').setAttribute('src', 'kisherceg2.jpg')
+                                break;
+                        case 17: document.getElementById('story').setAttribute('src', 'kisherceg3.jpg')
+                                break;
+                        case 21: document.getElementById('story').setAttribute('src', 'kisherceg4.jpg')
+                                break;
+                    }
+
+                    
+                    if(periodBeat === 1){
+                        audio.play();
+
+                    } else {
+
+                        console.log(this.periodBeat);
+                        audio2.play();
+
+                    }
+
+                    if(periodBeat % 2 === 0){
+                        document.getElementById('colorBox').style.background = 'green';
+
+                    } else {
+                        document.getElementById('colorBox').style.background = 'red';
+
+                    }
+
+                    if(periodBeat === 4) {
+                        periodBeat = 1;
+                    } else {
+                        periodBeat++;
+                    }
+
+                    if(ac4yKeyValueMemory.exists(tick)){
+                        document.getElementById("text").innerHTML = text[ac4yKeyValueMemory.get(tick)-1];
+                        
+                    }
+                    
+                    if(ac4yChordsValue.exists(tick)){
+                        document.getElementById("chords").innerHTML = chords[ac4yChordsValue.get(tick)-1];
+                        
+                    }
+
+                    switch(document.getElementById('chords').innerHTML){
+                        case "F": var img = document.getElementById('chord');
+                                  img.setAttribute('src', 'FChord.png');
+                                  break;
+                        case "C": var img = document.getElementById('chord');
+                                  img.setAttribute('src', 'CChord.jpg');
+                                  break;
+                    }
+
+                    if(tick === 46){
+                        timerWorker.postMessage({'command':'stop'});
+                        periodBeat = 1;
+                    }
+
+                    if(tick === 25){
+                        document.getElementById('text').innerHTML = '';
+                        document.getElementById('chord').setAttribute('src', '');
+                        document.getElementById('chords').innerHTML = '';
+                    }
+
+                
+                }
+            }
+/*
             class Utemezo {
                 constructor(){
                     this.bpm = 0;
@@ -92,6 +248,7 @@
                     this.intervalUnit = 0;
                     this.maxTick = 16;
                     this.actualTick = 1;
+                    this.colorTimeout = 0;
                 }
 
                 calculateIntervalUnit() {
@@ -104,7 +261,7 @@
                     document.getElementById("demo").innerHTML = 'Seconds: ' + this.seconds;
                     if(pause) {
                         this.seconds++;
-                    }*/
+                    }
 
                     console.log("tick");
 
@@ -136,13 +293,25 @@
                     this.text = ["Egyszer egy királyfi", "mit gondolt magában", "hihihi", "hahaha", "mit gondolt ma-", "gá-", "ban"];
                 }
 
+                backgroundToDefault() {
+                    if(document.getElementById('colorBox').classList.contains('redBackground'))
+                        document.getElementById('colorBox').classList.toggle('redBackground');
+                        
+                    if(document.getElementById('colorBox').classList.contains('greenBackground'))
+                        document.getElementById('colorBox').classList.toggle('greenBackground');
+                }
+
                 tick() {
 
                     if(this.periodBeat === 1){
-                        console.log('>> ' + this.periodBeat);
-
+                        document.getElementById('colorBox').classList.add('redBackground');
+                        setTimeout(document.getElementById('colorBox').classList.remove('redBackground'), 100);
                         audio.play();
+
                     } else {
+                        document.getElementById('colorBox').classList.add('greenBackground');
+                        setTimeout(this.backgroundToDefault(), this.colorTimeout); 
+
                         console.log(this.periodBeat);
                         audio2.play();
 
@@ -172,6 +341,7 @@
             var metronom = new Metronom();
             metronom.bpm = 120;
             metronom.beatPerPeriod = 4;
+            metronom.colorTimeout = 200;
 
             function stopClick() {
                 metronom.stop();
@@ -189,7 +359,7 @@
             function resumeClick() {
                 metronom.pause = false;
             }
-
+*/
 
         </script>
     </body>

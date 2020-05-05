@@ -1,0 +1,69 @@
+#colorBox {
+    position: absolute;
+    top:300px;
+    left: 200px;
+    display: block; 
+    height: 95px;
+    width: 95px;
+    margin: 10px;
+    border-style: solid;
+    border-color: black;
+    border-width: 3px;
+}
+
+.whiteBackroud {
+    background-color: white;
+}
+
+.greenBackground {
+    background-color: green;
+}
+
+.redBackground {
+    background-color: red;
+}
+
+#images {
+    position: absolute;
+    top: 300px;
+    padding: 10px;
+    background: wheat;
+    width: 120px;
+    height: 120px;
+}
+
+#image {
+    position: relative;
+    display: inline-block;
+    height: 100px;
+    width: 100px;
+    background: white;
+}
+
+#chord {
+    height: 100px;
+    width: 100px;
+}
+
+#image2 {
+    position: relative;
+    display: inline-block;
+    height: 75px;
+    width: 75px;
+    background: white;
+}
+
+#imagesStory {
+    position: absolute;
+    bottom: 0;
+    height: 250px;
+    width: 100%;
+    padding: 15px;
+    margin: 0;
+    background-color: wheat;
+    text-align: center;
+}
+
+#story {
+    height: 200px;
+}
