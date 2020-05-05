@@ -30,6 +30,7 @@
     background: wheat;
     width: 120px;
     height: 120px;
+    text-align: center;
 }
 
 #image {
@@ -38,11 +39,12 @@
     height: 100px;
     width: 100px;
     background: white;
+    text-align: center;
 }
 
 #chord {
-    height: 100px;
-    width: 100px;
+    height: 100%;
+    width: 100%;
 }
 
 #image2 {

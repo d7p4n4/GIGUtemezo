@@ -37,9 +37,7 @@
         <p id="chords" style="font-size: 90px; padding: 0; margin: 10px;"></p>
 
         <div id="images">
-            <div id="chordsImage">
                 <img id="chord" src="" alt=""/>
-            </div>
         </div>
 
         <div id="imagesStory">
@@ -99,13 +97,13 @@
             ac4yKeyValueMemory.put(21,5);
             ac4yKeyValueMemory.put(23,6);
             ac4yKeyValueMemory.put(24,7);
-            ac4yKeyValueMemory.put(28,8);
-            ac4yKeyValueMemory.put(32,9);
-            ac4yKeyValueMemory.put(36,10);
-            ac4yKeyValueMemory.put(38,11);
-            ac4yKeyValueMemory.put(40,12);
-            ac4yKeyValueMemory.put(42,13);
-            ac4yKeyValueMemory.put(43,14);
+            ac4yKeyValueMemory.put(25,8);
+            ac4yKeyValueMemory.put(29,9);
+            ac4yKeyValueMemory.put(33,10);
+            ac4yKeyValueMemory.put(35,11);
+            ac4yKeyValueMemory.put(37,12);
+            ac4yKeyValueMemory.put(39,13);
+            ac4yKeyValueMemory.put(40,14);
 
             var ac4yChordsValue = new Ac4yKeyValueMemory();
             ac4yChordsValue.put(9, 1);
@@ -113,11 +111,11 @@
             ac4yChordsValue.put(17, 1);
             ac4yChordsValue.put(19, 2);
             ac4yChordsValue.put(23, 1);
-            ac4yChordsValue.put(28, 1);
-            ac4yChordsValue.put(32, 2);
-            ac4yChordsValue.put(34, 1);
-            ac4yChordsValue.put(38, 2);
-            ac4yChordsValue.put(42, 1);
+            ac4yChordsValue.put(25, 1);
+            ac4yChordsValue.put(29, 2);
+            ac4yChordsValue.put(31, 1);
+            ac4yChordsValue.put(35, 2);
+            ac4yChordsValue.put(39, 1);
 
             
 
@@ -178,6 +176,14 @@
                                 break;
                         case 21: document.getElementById('story').setAttribute('src', 'kisherceg4.jpg')
                                 break;
+                        case 25: document.getElementById('story').setAttribute('src', 'kisherceg1.jpg')
+                                break;
+                        case 29: document.getElementById('story').setAttribute('src', 'kisherceg2.jpg')
+                                break;
+                        case 33: document.getElementById('story').setAttribute('src', 'kisherceg3.jpg')
+                                break;
+                        case 37: document.getElementById('story').setAttribute('src', 'kisherceg4.jpg')
+                                break;
                     }
 
                     
@@ -220,19 +226,13 @@
                                   img.setAttribute('src', 'FChord.png');
                                   break;
                         case "C": var img = document.getElementById('chord');
-                                  img.setAttribute('src', 'CChord.jpg');
+                                  img.setAttribute('src', 'CChord.png');
                                   break;
                     }
 
-                    if(tick === 46){
+                    if(tick === 41){
                         timerWorker.postMessage({'command':'stop'});
                         periodBeat = 1;
-                    }
-
-                    if(tick === 25){
-                        document.getElementById('text').innerHTML = '';
-                        document.getElementById('chord').setAttribute('src', '');
-                        document.getElementById('chords').innerHTML = '';
                     }
 
                 
