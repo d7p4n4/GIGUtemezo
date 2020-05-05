@@ -8,15 +8,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="index.css">
         <link rel="shortcut icon" href="">
-        <script src="backgroundticker.js" type="javascript/text"></script>
+        <script src="js/backgroundticker.js" ></script>
+        <script src="js/Ac4yKeyValueMemory.js" ></script>
         <audio id="chatAudio" > 
-            <source src= 
-    "tick157ms.mp3" 
+            <source src="tick157ms.mp3" 
             type="audio/mpeg"> 
         </audio> 
         <audio id="chatAudio2" > 
-            <source src= 
-    "tick220ms.mp3" 
+            <source src="tick220ms.mp3" 
             type="audio/mpeg"> 
         </audio> 
     </head>
@@ -37,11 +36,11 @@
         <p id="chords" style="font-size: 90px; padding: 0; margin: 10px;"></p>
 
         <div id="images">
-                <img id="chord" src="" alt=""/>
+                <img id="chordImage" src="" alt="" width="100" height="100" />
         </div>
 
         <div id="imagesStory">
-            <img id="story" src="" alt=""/>
+            <img id="story" src="" alt="" width="500" height="200"/>
         </div>
 
         <div id="colorBox" class="whiteBackground"></div>
@@ -55,57 +54,30 @@
             var audio2 = document.getElementById('chatAudio2'); 
             var periodBeat = 1;
             
-            class Ac4yKeyValueMemory {
-
-                constructor(object){this.empty();}
-                empty(){this.store={};}
-                getStore(){return this.store;}
-                setStore(store){return this.store=store;}
-                get(key){return this.store[key];}
-                size(){return Object.keys(this.store).length;}
-                exists(key){if (this.store[key]) return true; else return false;}
-                put(key, value){this.store[key]=value;}
-                remove(key){delete this.store[key];}
-            
-                getKeyList(){
-            
-                    var result = [];
-            
-                    for (var key in this.getStore()) {result.push(key);}
-            
-                    return result;
-            
-                } // getKeyList
-            
-                fetch(processor){
-            
-                    Object.getOwnPropertyNames(this.getStore()).forEach( (key, index) => {
-                        processor(key, this.getStore()[key], index);
-                    });
-            
-                } // fetch
-            
-                add(source){source.fetch( (key, value, index) => { this.put(key, value)} )}
-            
-            };
-
             var ac4yKeyValueMemory = new Ac4yKeyValueMemory();
-            ac4yKeyValueMemory.put(9,1);
-            ac4yKeyValueMemory.put(13,2);
-            ac4yKeyValueMemory.put(17,3);
-            ac4yKeyValueMemory.put(19,4);
-            ac4yKeyValueMemory.put(21,5);
-            ac4yKeyValueMemory.put(23,6);
-            ac4yKeyValueMemory.put(24,7);
-            ac4yKeyValueMemory.put(25,8);
-            ac4yKeyValueMemory.put(29,9);
-            ac4yKeyValueMemory.put(33,10);
-            ac4yKeyValueMemory.put(35,11);
-            ac4yKeyValueMemory.put(37,12);
-            ac4yKeyValueMemory.put(39,13);
-            ac4yKeyValueMemory.put(40,14);
+
+            ac4yKeyValueMemory.put(5,1);
+            ac4yKeyValueMemory.put(6,2);
+            ac4yKeyValueMemory.put(7,3);
+            ac4yKeyValueMemory.put(8,4);            
+            
+            ac4yKeyValueMemory.put(9,5);
+            ac4yKeyValueMemory.put(13,6);
+            ac4yKeyValueMemory.put(17,7);
+            ac4yKeyValueMemory.put(19,8);
+            ac4yKeyValueMemory.put(21,9);
+            ac4yKeyValueMemory.put(23,10);
+            ac4yKeyValueMemory.put(24,11);
+            ac4yKeyValueMemory.put(25,12);
+            ac4yKeyValueMemory.put(29,13);
+            ac4yKeyValueMemory.put(33,14);
+            ac4yKeyValueMemory.put(35,15);
+            ac4yKeyValueMemory.put(37,16);
+            ac4yKeyValueMemory.put(39,17);
+            ac4yKeyValueMemory.put(40,18);
 
             var ac4yChordsValue = new Ac4yKeyValueMemory();
+
             ac4yChordsValue.put(9, 1);
             ac4yChordsValue.put(13, 2);
             ac4yChordsValue.put(17, 1);
@@ -117,10 +89,23 @@
             ac4yChordsValue.put(35, 2);
             ac4yChordsValue.put(39, 1);
 
+            var chordImageValue = new Ac4yKeyValueMemory();
+
+            chordImageValue.put(9, 1);
+            chordImageValue.put(13, 2);
+            chordImageValue.put(17, 1);
+            chordImageValue.put(19, 2);
+            chordImageValue.put(23, 1);
+            chordImageValue.put(25, 1);
+            chordImageValue.put(29, 2);
+            chordImageValue.put(31, 1);
+            chordImageValue.put(35, 2);
+            chordImageValue.put(39, 1);
+
             
 
             var timerWorker = null;
-            timerWorker = new Worker("backgroundticker.js");
+            timerWorker = new Worker("js/backgroundticker.js");
             timerWorker.onmessage = function(e) {
 
                 tick(e.data.tick);
@@ -134,7 +119,7 @@
 
                 document.getElementById('text').innerHTML = '';
                 document.getElementById('chords').innerHTML = '';
-                document.getElementById('chord').setAttribute('src', '');
+                document.getElementById('chordImage').setAttribute('src', '');
                 document.getElementById('story').setAttribute('src', '');
                 document.getElementById('colorBox').style.background = 'white';
             }
@@ -151,23 +136,38 @@
 
             }
 
+            var text = [
+                    "4"
+                    ,"3"
+                    ,"2"
+                    ,"1"
+                    ,"Egyszer egy királyfi"
+                    , "mit gondolt magában"
+                    , "hihihi"
+                    , "hahaha"
+                    , "mit gondolt ma-"
+                    , "gá-"
+                    , "ban"
+                    ,"Föl kéne öltözni"
+                    , "Kocsisi ruhába"
+                    , "hihihi"
+                    , "hahaha"
+                    , "kocsisi ru-"
+                    , "há-"
+                    , "-ba"
+                ];
+
+                var chords = ["F", "C"]
+
+                var chordImage = ["FChord.png", "CChord.png"];
+
             function tick(tick) {
-                var text = ["Egyszer egy királyfi", "mit gondolt magában", "hihihi", "hahaha", "mit gondolt ma-", "gá-", "ban",
-                 'Föl kéne öltözni', "Kocsisi ruhába", "hihihi", "hahaha", "kocsisi ru-", "há-", "-ba"];
-                var chords = ["F", "C",]
 
                 if (tick) {
-                    console.log("tick:"+tick);
-
+                    
+                    //console.log("tick:"+tick);
+/*
                     switch(tick){
-                        case 5: document.getElementById("text").innerHTML = 4
-                            break;
-                        case 6: document.getElementById("text").innerHTML = 3
-                            break;
-                        case 7: document.getElementById("text").innerHTML = 2
-                            break;
-                        case 8: document.getElementById("text").innerHTML = 1
-                            break;
                         case 9: document.getElementById('story').setAttribute('src', 'kisherceg1.jpg')
                                 break;
                         case 13: document.getElementById('story').setAttribute('src', 'kisherceg2.jpg')
@@ -185,8 +185,8 @@
                         case 37: document.getElementById('story').setAttribute('src', 'kisherceg4.jpg')
                                 break;
                     }
-
-                    
+*/
+/*                    
                     if(periodBeat === 1){
                         audio.play();
 
@@ -196,7 +196,7 @@
                         audio2.play();
 
                     }
-
+*/
                     if(periodBeat % 2 === 0){
                         document.getElementById('colorBox').style.background = 'green';
 
@@ -211,16 +211,18 @@
                         periodBeat++;
                     }
 
-                    if(ac4yKeyValueMemory.exists(tick)){
-                        document.getElementById("text").innerHTML = text[ac4yKeyValueMemory.get(tick)-1];
-                        
-                    }
+                    if(ac4yKeyValueMemory.exists(tick))
+                        document.getElementById("text").innerHTML = 
+                            text[ac4yKeyValueMemory.get(tick)-1];
                     
-                    if(ac4yChordsValue.exists(tick)){
-                        document.getElementById("chords").innerHTML = chords[ac4yChordsValue.get(tick)-1];
-                        
-                    }
+                    if(ac4yChordsValue.exists(tick))
+                        document.getElementById("chords").innerHTML = 
+                            chords[ac4yChordsValue.get(tick)-1];
 
+                    if(chordImageValue.exists(tick))
+                        document.getElementById("chordImage").src = 
+                            chordImage[chordImageValue.get(tick)-1];
+/*
                     switch(document.getElementById('chords').innerHTML){
                         case "F": var img = document.getElementById('chord');
                                   img.setAttribute('src', 'FChord.png');
@@ -229,7 +231,7 @@
                                   img.setAttribute('src', 'CChord.png');
                                   break;
                     }
-
+*/
                     if(tick === 41){
                         timerWorker.postMessage({'command':'stop'});
                         periodBeat = 1;
@@ -238,128 +240,6 @@
                 
                 }
             }
-/*
-            class Utemezo {
-                constructor(){
-                    this.bpm = 0;
-                    this.intervalId = 0;
-                    this.pause = false;
-                    this.seconds = 0;
-                    this.intervalUnit = 0;
-                    this.maxTick = 16;
-                    this.actualTick = 1;
-                    this.colorTimeout = 0;
-                }
-
-                calculateIntervalUnit() {
-                    this.intervalUnit = 60000 / this.bpm;
-                }
-
-                tick() {
-                    /*-
-                    var date = new Date();
-                    document.getElementById("demo").innerHTML = 'Seconds: ' + this.seconds;
-                    if(pause) {
-                        this.seconds++;
-                    }
-
-                    console.log("tick");
-
-                }
-
-                start() {
-                    this.intervalId = setInterval(() => {
-
-                        this.tick();
-
-                    }, this.intervalUnit);
-
-                };
-
-                stop() {
-                    clearInterval(this.intervalId);
-                    this.seconds = 0;
-                }
-
-
-            };
-
-            class Metronom extends Utemezo {
-
-                constructor() {
-                    super();
-                    this.beatPerPeriod;
-                    this.periodBeat = 1;
-                    this.text = ["Egyszer egy királyfi", "mit gondolt magában", "hihihi", "hahaha", "mit gondolt ma-", "gá-", "ban"];
-                }
-
-                backgroundToDefault() {
-                    if(document.getElementById('colorBox').classList.contains('redBackground'))
-                        document.getElementById('colorBox').classList.toggle('redBackground');
-                        
-                    if(document.getElementById('colorBox').classList.contains('greenBackground'))
-                        document.getElementById('colorBox').classList.toggle('greenBackground');
-                }
-
-                tick() {
-
-                    if(this.periodBeat === 1){
-                        document.getElementById('colorBox').classList.add('redBackground');
-                        setTimeout(document.getElementById('colorBox').classList.remove('redBackground'), 100);
-                        audio.play();
-
-                    } else {
-                        document.getElementById('colorBox').classList.add('greenBackground');
-                        setTimeout(this.backgroundToDefault(), this.colorTimeout); 
-
-                        console.log(this.periodBeat);
-                        audio2.play();
-
-                    }
-
-                    if(this.periodBeat === this.beatPerPeriod) {
-                        this.periodBeat = 1;
-                    } else {
-                        this.periodBeat++;
-                    }
-
-                    if(ac4yKeyValueMemory.exists(this.actualTick)){
-                        document.getElementById("text").innerHTML = this.text[ac4yKeyValueMemory.get(this.actualTick)-1];
-                        
-                    }
-
-                    if(this.actualTick === this.maxTick){
-                        this.stop();
-                        this.actualTick = 1;
-                    }
-                    this.actualTick++;
-
-                }
-
-            };
-
-            var metronom = new Metronom();
-            metronom.bpm = 120;
-            metronom.beatPerPeriod = 4;
-            metronom.colorTimeout = 200;
-
-            function stopClick() {
-                metronom.stop();
-            }
-
-            function startClick() {
-                metronom.calculateIntervalUnit();
-                metronom.start();
-            }
-
-            function pauseClick() {
-                metronom.pause = true;
-            }
-
-            function resumeClick() {
-                metronom.pause = false;
-            }
-*/
 
         </script>
     </body>
