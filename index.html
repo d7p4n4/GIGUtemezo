@@ -6,7 +6,6 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="index.css">
         <link rel="shortcut icon" href="">
         <script src="js/backgroundticker.js" ></script>
         <script src="js/Ac4yKeyValueMemory.js" ></script>
@@ -18,6 +17,25 @@
             <source src="audio\tick220ms.mp3" 
             type="audio/mpeg"> 
         </audio> 
+    
+        <style>
+
+            .flex-container {
+              display: flex;
+                flex-direction: column;
+            }
+            
+            .flex-container > div {
+                border: 1px;
+                border-style: dotted;
+                border-radius: 7px;
+              margin: 3px;
+              padding: 3px;
+              font-size: 10px;
+              background-color: #f3f3f1;
+            }
+            </style>    
+    
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -32,22 +50,28 @@
         <button type="button" id="resumeButton" onclick="resumeClick()">Resume</button>
         -->
 
-        <p id="text" style="font-size: 54px; padding:0; margin:0;"></p>
-        <p id="chords" style="font-size: 90px; padding: 0; margin: 10px;"></p>
+        <div class="flex-container">
 
-        <div id="images">
-                <img id="chordImage" src="" alt="" width="100" height="100" />
-        </div>
+            <div id="lightMetronome" style="height:30px;" ></div>
 
-        <div id="imagesStory">
-            <img id="story" src="" alt="" width="600" height="500"/>
-        </div>
+            <div id="lyrics" style="font-size: 30px; "></div>
 
-        <div id="colorBox" class="whiteBackground"></div>
-            
-        <p id="demo"></p>
+            <div id="chords" style="font-size: 50px; "></div>
+           
+            <div id="images">
+                    <img id="chordImage" src="" alt="" width="100" height="100" />
+            </div>
+    
+            <div id="imagesStory">
+                <img id="story" src="" alt="" width="400" height="300"/>
+            </div>
+    
+                
+              </div>
 
-        <script src="" async defer></script>
+        <!-- <p id="demo"></p> -->
+
+        <!-- <script src="" async defer></script> -->
 
         <script>
             var audio = document.getElementById('chatAudio'); 
@@ -124,22 +148,15 @@
                 timerWorker.postMessage({"beatPerPeriod":4});
                 timerWorker.postMessage({"command":"start"});
 
-                document.getElementById('text').innerHTML = '';
+                document.getElementById('lyrics').innerHTML = '';
                 document.getElementById('chords').innerHTML = '';
                 document.getElementById('chordImage').setAttribute('src', '');
                 document.getElementById('story').setAttribute('src', '');
-                document.getElementById('colorBox').style.background = 'white';
+                document.getElementById('lightMetronome').style.background = 'white';
             }
 
             function stopClick() {
                 timerWorker.postMessage({'command':'stop'});
-                /*-
-                document.getElementById('text').innerHTML = '';
-                document.getElementById('chords').innerHTML = '';
-                document.getElementById('chord').setAttribute('src', '');
-                document.getElementById('story').setAttribute('src', '');
-                document.getElementById('colorBox').style.background = 'white';
-                */
 
             }
 
@@ -185,10 +202,10 @@
                     }
 
                     if(periodBeat % 2 === 0){
-                        document.getElementById('colorBox').style.background = 'green';
+                        document.getElementById('lightMetronome').style.background = '#bbfa99';
 
                     } else {
-                        document.getElementById('colorBox').style.background = 'red';
+                        document.getElementById('lightMetronome').style.background = '#e359d5';
 
                     }
 
@@ -199,7 +216,7 @@
                     }
 
                     if(ac4yKeyValueMemory.exists(tick))
-                        document.getElementById("text").innerHTML = 
+                        document.getElementById("lyrics").innerHTML = 
                             text[ac4yKeyValueMemory.get(tick)-1];
                     
                     if(ac4yChordsValue.exists(tick))
@@ -214,7 +231,7 @@
                         document.getElementById("story").src = 
                             storyImage[storyImageHotspot.get(tick)-1];
 
-                    if(tick === 41){
+                    if(tick >= (10*4)){
                         timerWorker.postMessage({'command':'stop'});
                         periodBeat = 1;
                     }
